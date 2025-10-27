@@ -2,13 +2,21 @@
 
 ## Configuração
 
-Crie o ambiente virtual
+Crie um arquivo .env e salve o valor da respectiva API_KEY (GOOGLE_API_KEY)
+
+Crie o ambiente virtual (venv)
+
+Instale as dependências
 
 ```bash
 pip3 install -r requirements.txt
 ```
 
 Execute a aplicação
+
+```bash
+python3 gemini_qa_lc.py
+```
 
 ## Troubleshooting
 
