@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block title %}Gemini ChatBot - Conversa Inteligente{% endblock %}
+
+{% block content %}
+<div class="chat-container">
+    <header class="chat-header">
+        <h1>🤖 Gemini ChatBot</h1>
+        <div class="session-info">
+            <small>Sessão: {{ session_id }}</small>
+            <button id="clearChat" class="btn-secondary">Limpar Chat</button>
+        </div>
+    </header>
+
+    <div class="chat-messages" id="chatMessages">
+        <div class="welcome-message">
+            <p>Olá! Sou seu assistente de IA. Como posso ajudá-lo hoje?</p>
+        </div>
+    </div>
+
+    <div class="chat-input-container">
+        <div class="input-group">
+            <textarea 
+                id="messageInput" 
+                placeholder="Digite sua mensagem..." 
+                rows="3"
+            ></textarea>
+            <button id="sendButton" class="btn-primary">
+                <span>Enviar</span>
+                <div class="loading-spinner" id="loadingSpinner" style="display: none;"></div>
+            </button>
+        </div>
+        <div class="chat-actions">
+            <button id="loadHistory" class="btn-secondary">Carregar Histórico</button>
+            <button id="checkHealth" class="btn-secondary">Verificar Saúde</button>
+        </div>
+    </div>
+</div>
+
+<div id="statusMessage" class="status-message"></div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/chat.js') }}"></script>
+{% endblock %}
