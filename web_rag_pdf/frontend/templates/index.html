@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block title %}Upload PDF{% endblock %}
+
+{% block content %}
+<h1>Bem-vindo ao RAG PDF App</h1>
+<p>Faça upload de um documento PDF e comece a fazer perguntas sobre ele!</p>
+
+<div class="card">
+    <h2>Upload de PDF</h2>
+    <form action="{{ url_for('upload') }}" method="post" enctype="multipart/form-data">
+        <input type="file" name="pdf_file" accept=".pdf" required>
+        <button type="submit">Upload</button>
+    </form>
+</div>
+
+<div class="card">
+    <h2>Documentos Enviados</h2>
+    {% if documents %}
+    <ul>
+        {% for doc in documents %}
+        <li>
+            <a href="{{ url_for('chat_document', doc_id=doc.id) }}">{{ doc.filename }}</a>
+            (ID: {{ doc.id }}) - Enviado em: {{ doc.uploaded_at }}
+        </li>
+        {% endfor %}
+    </ul>
+    {% else %}
+    <p>Nenhum documento enviado ainda.</p>
+    {% endif %}
+</div>
+{% endblock %}

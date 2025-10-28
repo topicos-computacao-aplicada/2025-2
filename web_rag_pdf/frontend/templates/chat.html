@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block title %}Chat com {{ document.filename }}{% endblock %}
+
+{% block content %}
+<h1>Chat com: {{ document.filename }}</h1>
+<p>ID do Documento: {{ document.id }}</p>
+
+<div class="chat-container">
+    <div id="chat-messages" class="chat-messages">
+        {% if chat_history %}
+            {% for entry in chat_history %}
+                <div class="message user-message">
+                    <strong>Você:</strong> {{ entry.question }}
+                </div>
+                <div class="message bot-message">
+                    <strong>Assistente:</strong> {{ entry.answer }}
+                    {% if entry.source_chunks %}
+                        <details>
+                            <summary>Trechos da Fonte</summary>
+                            {% for chunk in entry.source_chunks %}
+                                <p>{{ chunk }}</p>
+                                <hr>
+                            {% endfor %}
+                        </details>
+                    {% endif %}
+                </div>
+            {% endfor %}
+        {% endif %}
+    </div>
+
+    <div class="chat-input">
+        <form id="chat-form" action="{{ url_for('ask_document', doc_id=document.id) }}" method="post">
+            <input type="text" name="question" placeholder="Faça sua pergunta aqui..." required>
+            <button type="submit">Perguntar</button>
+        </form>
+    </div>
+</div>
+
+<a href="{{ url_for('index') }}" class="back-link">← Voltar para a lista de documentos</a>
+{% endblock %}
