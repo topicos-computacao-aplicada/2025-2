@@ -22,3 +22,4 @@ Exemplo de Aplicação de Visão Computacional usando Deep Learning
 - [Fundamentos de Engenharia de Prompt](https://github.com/topicos-computacao-aplicada/2025-2/blob/main/docs/fundamentos_engenharia_prompt_llm.md)
 - [Prompt de Sistema e Prompt de Usuário](https://github.com/topicos-computacao-aplicada/2025-2/blob/main/docs/system_prompt_user_prompt.md)
 - [Segurança em Prompt Engineering](https://github.com/topicos-computacao-aplicada/2025-2/blob/main/docs/prompt.md)
+- [Paper Técnico sobre Segurança de Prompt](https://github.com/topicos-computacao-aplicada/2025-2/blob/main/docs/paper_seguranca_prompt.md)
