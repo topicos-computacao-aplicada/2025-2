@@ -1,6 +1,8 @@
 # 2025-2
 Turma de Computação Aplicada 2025-2 (UFPI)
 
+O objetivo deste curso é capacitar os alunos a conceber, arquitetar e implementar projetos de aplicações de IA Generativa em ambiente de computação em nuvem. Partindo dos fundamentos de Machine Learning, os alunos explorarão modelos generativos de mais recentes (como Large Language Models - LLMs) e seus padrões de aplicação. A disciplina aborda o ciclo de vida básico dessas soluções, priorizando o desenvolvimento, deployment e o monitoramento, de tais aplicações, utilizando serviços de cloud computing para hospedar a solução. Ao final, o aluno terá o embasamento necessário para entender e criar os principais componentes de uma solução de IA generativa robusta e escalável em um ambiente de nuvem.
+
 ## Machine Learning
 
 - [Modelo de Regressão Linear](notebooks/ML_Linear_Regressionn.ipynb)
@@ -36,3 +38,5 @@ Exemplo de Aplicação de Visão Computacional usando Deep Learning
 
 - [Fundamentos do framework Langchain](https://github.com/topicos-computacao-aplicada/2025-2/blob/main/docs/relatorio_tecnico_langchain.md)
 - [Exemplo de uso do Langchain para uma aplicação de IA Generativa](https://github.com/topicos-computacao-aplicada/2025-2/blob/main/docs/my_langchain.md)
+
+Em caso de dúvidas entrar em contato com [Armando Soares Sousa](https://www.sigaa.ufpi.br/sigaa/public/docente/portal.jsf?siape=1886865) (responsável pela disciplina).
