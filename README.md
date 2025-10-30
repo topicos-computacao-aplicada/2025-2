@@ -23,3 +23,16 @@ Exemplo de Aplicação de Visão Computacional usando Deep Learning
 - [Prompt de Sistema e Prompt de Usuário](https://github.com/topicos-computacao-aplicada/2025-2/blob/main/docs/system_prompt_user_prompt.md)
 - [Segurança em Prompt Engineering](https://github.com/topicos-computacao-aplicada/2025-2/blob/main/docs/prompt.md)
 - [Paper Técnico sobre Segurança de Prompt](https://github.com/topicos-computacao-aplicada/2025-2/blob/main/docs/paper_seguranca_prompt.md)
+
+### RAG (Retrieval-Augmented Generation)
+- [Fundamentos sobre RAG](https://github.com/topicos-computacao-aplicada/2025-2/blob/main/docs/rag_paper_tecnico.md)
+- [Exemplo de aplicação](https://github.com/topicos-computacao-aplicada/2025-2/blob/main/docs/exemplo_web_rag.md)
+- [Protótipo de App web com RAG](https://github.com/topicos-computacao-aplicada/2025-2/tree/main/web_rag_pdf)
+
+### Agentes
+- [TBD]()
+
+## LangChain
+
+- [Fundamentos do framework Langchain](https://github.com/topicos-computacao-aplicada/2025-2/blob/main/docs/relatorio_tecnico_langchain.md)
+- [Exemplo de uso do Langchain para uma aplicação de IA Generativa](https://github.com/topicos-computacao-aplicada/2025-2/blob/main/docs/my_langchain.md)
