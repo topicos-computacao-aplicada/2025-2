@@ -6,11 +6,11 @@ Armando Soares Sousa - UFPI/DC - 22/08/2025
 
 ## Resumo
 
-Os **Large Language Models (LLMs)** têm se consolidado como tecnologias-chave para aplicações de Inteligência Artificial (IA) em diversas áreas, incluindo busca semântica, geração de texto, sumarização e agentes conversacionais. Entretanto, a integração desses modelos em sistemas reais demanda uma camada de orquestração, capaz de gerenciar interações, conectar dados externos e oferecer memória conversacional. O **LangChain** surge como um framework projetado para atender a essas necessidades, oferecendo abstrações para desenvolvimento de aplicações baseadas em LLMs de maneira modular e escalável. Este artigo apresenta uma visão técnica do LangChain, seus principais componentes, cadeias (chains), exemplos de uso e um estudo de caso prático envolvendo **RAG (Retrieval-Augmented Generation)** aplicado a documentos PDF.
+Os **Large Language Models ([LLMs](https://arxiv.org/abs/2402.06196))** têm se consolidado como tecnologias-chave para aplicações de Inteligência Artificial (IA) em diversas áreas, incluindo **busca semântica**, **geração de texto**, **sumarização** e **agentes conversacionais**. Entretanto, a integração desses modelos em sistemas reais demanda uma camada de orquestração, capaz de gerenciar interações, conectar dados externos e oferecer memória conversacional. O **LangChain** surge como um framework projetado para atender a essas necessidades, oferecendo abstrações para desenvolvimento de **aplicações baseadas em LLMs de maneira modular e escalável**. Este artigo apresenta uma visão técnica do LangChain, seus principais componentes, cadeias (chains), exemplos de uso e um estudo de caso prático envolvendo **RAG ([Retrieval-Augmented Generation](https://arxiv.org/abs/2404.19543))** aplicado a documentos PDF.
 
 ## 1. Introdução
 
-O avanço dos **LLMs** como GPT-4, LLaMA e Mistral transformou o paradigma de interação humano-máquina, permitindo a construção de sistemas capazes de raciocínio, contextualização e inferência em linguagem natural (Brown et al., 2020; Touvron et al., 2023). No entanto, para transformar tais modelos em **aplicações de produção**, é necessário lidar com desafios como:
+O avanço dos **LLMs** como [GPT-4](https://cdn.openai.com/papers/gpt-4.pdf?utm_source=chatgpt.com), [LLaMA](https://arxiv.org/abs/2302.13971) e [Mistral](https://arxiv.org/abs/2310.06825) transformou o paradigma de interação humano-máquina, permitindo a construção de sistemas capazes de raciocínio, contextualização e inferência em linguagem natural (Brown et al., 2020; Touvron et al., 2023). No entanto, para transformar tais modelos em **aplicações de produção**, é necessário lidar com desafios como:
 
 * Gerenciamento de **prompts complexos**.
 * Integração com **bases de dados externas**.
@@ -25,7 +25,7 @@ O LangChain organiza suas funcionalidades em componentes principais:
 
 ### 2.1. Modelos
 
-Permite integrar LLMs de diferentes provedores (OpenAI, Anthropic, Hugging Face, Ollama), oferecendo suporte tanto para **LLMs de geração** quanto para **chat models**.
+Permite integrar LLMs de diferentes provedores ([OpenAI](https://openai.com), [Anthropic](https://www.anthropic.com), [Hugging Face](https://huggingface.co), [Ollama](https://ollama.com)), oferecendo suporte tanto para **LLMs de geração** quanto para **chat models**.
 
 ### 2.2. Prompts
 
@@ -46,7 +46,7 @@ O LangChain oferece abstrações de **Memory**, que permitem armazenar contexto 
 
 ### 2.5. Retrievers e VectorStores
 
-Integração com bancos vetoriais (FAISS, Chroma, Milvus) para **busca semântica** em documentos. Essa camada é fundamental para **RAG** (Lewis et al., 2020).
+Integração com bancos vetoriais ([FAISS](https://faiss.ai), [Chroma](https://www.trychroma.com), [Milvus](https://milvus.io)) para **busca semântica** em documentos. Essa camada é fundamental para **RAG** (Lewis et al., 2020).
 
 ### 2.6. Agentes
 
@@ -91,6 +91,110 @@ chat = ConversationChain(llm=llm, memory=memory)
 
 print(chat.predict(input="Olá, quem é você?"))
 print(chat.predict(input="E qual foi minha pergunta anterior?"))
+```
+
+### 4.3 Resumo de textos
+
+```python
+import sys
+import argparse
+from pathlib import Path
+from dotenv import load_dotenv
+
+# LangChain (v0.2+)
+from langchain_openai import ChatOpenAI
+from langchain_core.prompts import ChatPromptTemplate
+from langchain_core.output_parsers import StrOutputParser
+from langchain_text_splitters import RecursiveCharacterTextSplitter
+
+load_dotenv()
+
+# ---- Configurações principais ----
+MODEL_NAME = "gpt-4o-mini"
+CHUNK_SIZE = 1500       # caracteres
+CHUNK_OVERLAP = 150     # caracteres
+LONG_TEXT_THRESHOLD = 3500  # acima disso, aplicar chunking
+
+def build_summary_chain(model: ChatOpenAI):
+    prompt = ChatPromptTemplate.from_messages([
+        ("system",
+         "Você é um assistente experiente em escrita técnica. "
+         "Resuma o texto do usuário em português claro, conciso e fiel, "
+         "preservando ideias centrais e evitando detalhes supérfluos. "
+         "Se houver listas, sintetize-as em bullets curtos."),
+        ("user", "Texto a resumir:\n\n{input_text}")
+    ])
+    return prompt | model | StrOutputParser()
+
+def build_combine_chain(model: ChatOpenAI):
+    prompt = ChatPromptTemplate.from_messages([
+        ("system",
+         "Combine os resumos parciais abaixo em um único resumo coeso, "
+         "eliminando redundâncias e mantendo apenas as ideias principais. "
+         "Escreva em português objetivo, ~5-10 linhas."),
+        ("user", "Resumos parciais:\n\n{partials}")
+    ])
+    return prompt | model | StrOutputParser()
+
+def summarize_text(text: str, temperature: float = 0.2) -> str:
+    model = ChatOpenAI(model=MODEL_NAME, temperature=temperature)
+
+    # Caso curto: resumo direto
+    if len(text) <= LONG_TEXT_THRESHOLD:
+        chain = build_summary_chain(model)
+        return chain.invoke({"input_text": text})
+
+    # Caso longo: chunking + resumo por parte + combinação
+    splitter = RecursiveCharacterTextSplitter(
+        chunk_size=CHUNK_SIZE, chunk_overlap=CHUNK_OVERLAP,
+        separators=["\n\n", "\n", ". ", " "]
+    )
+    chunks = splitter.split_text(text)
+
+    summary_chain = build_summary_chain(model)
+    partials = []
+    for i, chunk in enumerate(chunks, start=1):
+        partial = summary_chain.invoke({"input_text": chunk})
+        partials.append(f"[Parte {i}]\n{partial}")
+
+    combine_chain = build_combine_chain(model)
+    combined = combine_chain.invoke({"partials": "\n\n".join(partials)})
+    return combined
+
+def read_input(args) -> str:
+    # 1) --text tem prioridade
+    if args.text:
+        return args.text
+
+    # 2) arquivo
+    if args.file:
+        p = Path(args.file)
+        if not p.exists():
+            sys.exit(f"Arquivo não encontrado: {p}")
+        return p.read_text(encoding="utf-8")
+
+    # 3) stdin
+    if not sys.stdin.isatty():
+        return sys.stdin.read()
+
+    sys.exit("Nenhum texto fornecido. Use --text, --file ou stdin.")
+
+def main():
+    parser = argparse.ArgumentParser(
+        description="Resumo de texto usando LangChain + OpenAI gpt-4o-mini (RAG-free)."
+    )
+    parser.add_argument("--text", type=str, help="Texto a ser resumido (string).")
+    parser.add_argument("--file", type=str, help="Caminho para arquivo de texto.")
+    parser.add_argument("--temperature", type=float, default=0.2,
+                        help="Temperatura do modelo (padrão: 0.2).")
+    args = parser.parse_args()
+
+    text = read_input(args)
+    summary = summarize_text(text, temperature=args.temperature)
+    print(summary.strip())
+
+if __name__ == "__main__":
+    main()
 ```
 
 ## 5. Estudo de Caso: RAG com PDFs
