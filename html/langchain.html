@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Framework LangChain - Tópicos em Computação Aplicada</title>
+<link rel="stylesheet" href="https://unpkg.com/reveal.js/dist/reveal.css">
+<link rel="stylesheet" href="https://unpkg.com/reveal.js/dist/theme/white.css">
+<script src="https://unpkg.com/reveal.js/dist/reveal.js"></script>
+<style>
+.reveal pre code {
+  font-size: 0.9em;
+  line-height: 1.4em;
+}
+.reveal section img {
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.3);
+}
+</style>
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+
+<section>
+  <h2>🧠 Framework LangChain</h2>
+  <h4>Tópicos em Computação Aplicada</h4>
+  <p>Prof. Armando Soares Sousa - UFPI</p>
+</section>
+
+<section>
+  <h3>O que é o LangChain?</h3>
+  <ul>
+    <li>Framework open-source para construir aplicações com Modelos de Linguagem (LLMs).</li>
+    <li>Facilita integração entre modelos, fontes de dados e lógica de aplicação.</li>
+    <li>Permite criar pipelines complexos de IA generativa, como chatbots, agentes e sistemas RAG.</li>
+  </ul>
+</section>
+
+<section>
+  <h3>Arquitetura Geral</h3>
+  <img src="https://docs.langchain.com/img/architecture.svg" alt="LangChain Architecture" width="80%">
+  <p>O LangChain atua como uma camada de orquestração entre o LLM e o mundo real (dados, APIs, memória e contexto).</p>
+</section>
+
+<section>
+  <h3>Principais Conceitos</h3>
+  <ul>
+    <li><b>PromptTemplates:</b> moldes de prompts dinâmicos com variáveis.</li>
+    <li><b>LLMs:</b> interfaces unificadas para modelos como GPT, Mistral, Gemma, etc.</li>
+    <li><b>Chains:</b> sequência de componentes conectados que processam entrada e saída.</li>
+    <li><b>Memory:</b> guarda o histórico de interações (essencial para chatbots).</li>
+    <li><b>Tools e Agents:</b> permitem que o LLM use ferramentas externas (ex: calculadoras, APIs, bancos de dados).</li>
+  </ul>
+</section>
+
+<section>
+  <h3>Exemplo 1 — Criando um PromptTemplate</h3>
+  <pre><code class="python">
+from langchain.prompts import PromptTemplate
+
+template = "Traduza o seguinte texto para português: {texto}"
+prompt = PromptTemplate.from_template(template)
+
+print(prompt.format(texto="Hello, how are you?"))
+  </code></pre>
+  <p>➡️ Permite gerar prompts dinâmicos e reutilizáveis.</p>
+</section>
+
+<section>
+  <h3>Exemplo 2 — Usando um LLM</h3>
+  <pre><code class="python">
+from langchain.llms import OpenAI
+
+llm = OpenAI(model="gpt-3.5-turbo", temperature=0.7)
+resposta = llm("Explique o que é aprendizado supervisionado.")
+print(resposta)
+  </code></pre>
+  <p>LangChain padroniza o acesso a diferentes provedores de LLMs (OpenAI, Hugging Face, Ollama, etc).</p>
+</section>
+
+<section>
+  <h3>Exemplo 3 — Criando uma Chain</h3>
+  <pre><code class="python">
+from langchain import LLMChain
+from langchain.prompts import PromptTemplate
+from langchain.llms import OpenAI
+
+template = "Explique o conceito de {conceito} de forma simples."
+prompt = PromptTemplate.from_template(template)
+llm = OpenAI(model="gpt-3.5-turbo")
+
+chain = LLMChain(llm=llm, prompt=prompt)
+print(chain.run(conceito="Inteligência Artificial"))
+  </code></pre>
+</section>
+
+<section>
+  <h3>Memory e Conversas Contextuais</h3>
+  <pre><code class="python">
+from langchain.chains import ConversationChain
+from langchain.memory import ConversationBufferMemory
+from langchain.llms import OpenAI
+
+llm = OpenAI(temperature=0.6)
+memory = ConversationBufferMemory()
+conversation = ConversationChain(llm=llm, memory=memory)
+
+conversation.run("Olá! Quem é você?")
+conversation.run("E qual é o seu papel na IA?")
+  </code></pre>
+  <p>➡️ O histórico da conversa é armazenado e usado nas próximas respostas.</p>
+</section>
+
+<section>
+  <h3>Agents e Tools</h3>
+  <ul>
+    <li><b>Agents:</b> LLMs que tomam decisões sobre quais ferramentas usar e quando.</li>
+    <li><b>Tools:</b> Funções externas (API, banco de dados, busca web, etc.).</li>
+  </ul>
+  <pre><code class="python">
+from langchain.agents import load_tools, initialize_agent
+
+tools = load_tools(["serpapi", "llm-math"], llm=llm)
+agent = initialize_agent(tools, llm, agent_type="zero-shot-react-description")
+
+agent.run("Quantos anos faltam para 2050?")
+  </code></pre>
+</section>
+
+<section>
+  <h3>Retrieval-Augmented Generation (RAG)</h3>
+  <p>LangChain é amplamente usado para implementar RAG — busca de informações + geração de texto.</p>
+  <ul>
+    <li>Integração com bancos vetoriais (Chroma, FAISS, Milvus, etc.).</li>
+    <li>Permite consultar PDFs, sites e bases de dados antes de gerar a resposta.</li>
+  </ul>
+  <pre><code class="python">
+from langchain.vectorstores import Chroma
+from langchain.embeddings import OpenAIEmbeddings
+from langchain.chains import RetrievalQA
+
+db = Chroma(persist_directory="dados", embedding_function=OpenAIEmbeddings())
+retriever = db.as_retriever()
+qa = RetrievalQA.from_chain_type(llm=llm, retriever=retriever)
+
+qa.run("Qual é o objetivo do projeto SoberanIA?")
+  </code></pre>
+</section>
+
+<section>
+  <h3>Casos de Uso Reais</h3>
+  <ul>
+    <li>Chatbots com memória e contexto.</li>
+    <li>Assistentes de código (CodeGPT, GitHub Copilot).</li>
+    <li>Aplicações de perguntas e respostas sobre documentos (RAG Apps).</li>
+    <li>Agentes autônomos (AutoGPT, BabyAGI).</li>
+  </ul>
+</section>
+
+<section>
+  <h3>Integrações Populares</h3>
+  <ul>
+    <li>Modelos: OpenAI, Mistral, Hugging Face, Ollama, Gemini, Anthropic.</li>
+    <li>Armazenamento Vetorial: ChromaDB, Pinecone, Weaviate, FAISS.</li>
+    <li>Frameworks: FastAPI, Flask, Streamlit.</li>
+    <li>Orquestração: LangServe, LangSmith.</li>
+  </ul>
+</section>
+
+<section>
+  <h3>Boas Práticas</h3>
+  <ul>
+    <li>Definir temperatura e top_p conforme o contexto.</li>
+    <li>Proteger chaves de API em variáveis de ambiente.</li>
+    <li>Utilizar logs e rastreamento com LangSmith.</li>
+    <li>Monitorar custos e desempenho do LLM.</li>
+  </ul>
+</section>
+
+<section>
+  <h3>Conclusão</h3>
+  <p>LangChain é o principal framework para engenharia de aplicações baseadas em LLMs.</p>
+  <p>Permite compor modelos, dados e lógica de forma modular e escalável.</p>
+  <p>Dominar LangChain é um passo essencial para desenvolver sistemas de IA generativa modernos.</p>
+</section>
+
+<section>
+  <h3>Referências</h3>
+  <ul>
+    <li>LangChain Documentation – <a href="https://python.langchain.com" target="_blank">python.langchain.com</a></li>
+    <li>LangChain GitHub – <a href="https://github.com/langchain-ai/langchain" target="_blank">github.com/langchain-ai/langchain</a></li>
+    <li>LangSmith & LangServe – <a href="https://smith.langchain.com" target="_blank">smith.langchain.com</a></li>
+  </ul>
+</section>
+
+</div>
+</div>
+<script>
+  Reveal.initialize({
+    hash: true,
+    slideNumber: true
+  });
+</script>
+</body>
+</html>
