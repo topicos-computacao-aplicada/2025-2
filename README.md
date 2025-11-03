@@ -55,4 +55,8 @@ Exemplo de Aplicação de Visão Computacional usando Deep Learning
 - [Fundamentos do framework Langchain](https://github.com/topicos-computacao-aplicada/2025-2/blob/main/docs/relatorio_tecnico_langchain.md)
 - [Exemplo de uso do Langchain para uma aplicação de IA Generativa](https://github.com/topicos-computacao-aplicada/2025-2/blob/main/docs/my_langchain.md)
 
+## Site da disciplina
+
+Disponível em https://topicos-computacao-aplicada.github.io/github.io
+
 Em caso de dúvidas entrar em contato com [Armando Soares Sousa](https://www.sigaa.ufpi.br/sigaa/public/docente/portal.jsf?siape=1886865) (responsável pela disciplina).
