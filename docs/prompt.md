@@ -152,7 +152,7 @@ Um processo estruturado geralmente segue estas etapas:
 
 ---
 
-### Melhores Prutas e Ferramentas
+### Melhores Práticas e Ferramentas
 
 *   **Diversidade da Equipe:** Uma equipe diversificada (em termos de background, cultura, gênero) é mais capaz de identificar uma gama mais ampla de vieses e vetores de ataque.
 *   **Automação com Caixa de Ferramentas (Tooling):** Embora a criatividade humana seja crucial, ferramentas automatizadas ajudam a escalar o processo.
