@@ -67,16 +67,39 @@ Essa arquitetura permite **composabilidade**, onde novos sistemas podem ser cons
 ### 4.1. Tradução Automática com Prompt Template
 
 ```python
+from langchain_core.prompts import ChatPromptTemplate
 from langchain_openai import ChatOpenAI
-from langchain.prompts import ChatPromptTemplate
-from langchain.chains import LLMChain
+from langchain_core.output_parsers import StrOutputParser
 
-llm = ChatOpenAI(model="gpt-4o-mini")
-prompt = ChatPromptTemplate.from_template("Traduza para português: {texto}")
-chain = LLMChain(llm=llm, prompt=prompt)
+# Definir o template do prompt
+template = ChatPromptTemplate(
+    [
+        ("system", "You are a helpful Translator. You receive an english text and should replay with translation in portuguese (Brazil). The english text is {english_text}.")
+    ]
+)
 
-resposta = chain.run({"texto": "Artificial Intelligence is transforming the world."})
-print(resposta)
+# Criar a chain
+model = ChatOpenAI(model="gpt-3.5-turbo")
+output_parser = StrOutputParser()
+
+chain = template | model | output_parser
+
+# Invocar a chain
+response = chain.invoke(
+    {
+        "english_text": "Artificial Intelligence is transforming the world."
+    }
+)
+
+print("Prompt value:")
+print(template.invoke(
+    {
+        "english_text": "Artificial Intelligence is transforming the world."
+    }
+))
+
+print("\nResponse:")
+print(response)
 ```
 
 ### 4.2. Chatbot com Memória
