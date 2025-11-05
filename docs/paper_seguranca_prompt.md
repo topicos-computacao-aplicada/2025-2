@@ -210,7 +210,6 @@ A engenharia de prompt maliciosa representa uma vulnerabilidade real e crescente
 5. Attention-Tracker et al.: “Attention Tracker: Detecting Prompt Injection Attacks in LLMs.” Findings of NAACL (2025) ([ACL Anthology][3])
 6. NVIDIA Developer Blog: “Defining LLM Red Teaming.” (2024) ([NVIDIA Developer][14])
 7. OWASP Gen AI Security Project: “LLM01:2025 Prompt Injection.” (2025) ([genai.owasp.org][15])
-8. (Adicionais conforme necessidade)
 
 ---
 
