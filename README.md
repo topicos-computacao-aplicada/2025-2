@@ -39,7 +39,8 @@ Exemplo de Aplicação de Visão Computacional usando Deep Learning
 **RAG (Retrieval-Augmented Generation, ou Geração Aumentada por Recuperação)** é uma arquitetura avançada que combina um sistema de recuperação de informações com um modelo de linguagem generativa para melhorar a precisão e a factualidade de suas respostas. A inovação do RAG está em sua execução em duas etapas: primeiro, o sistema recupera documentos ou informações relevantes e atualizadas de uma fonte de conhecimento externa (como uma base de dados corporativa ou a web) com base na consulta do usuário. Em seguida, esse contexto específico e confiável é inserido como parte do prompt para o modelo generativo, que o utiliza para sintetizar uma resposta fundamentada. Essa abordagem mitiga um problema comum em LLMs puros: as "alucinações" ou a geração de informações inventadas. Ao ancorar a geração em fatos verificáveis, o RAG cria sistemas de IA mais confiáveis, contextuais e atualizáveis, sendo essencial para a construção de assistentes inteligentes e chatbots especializados em domínios específicos.
 
 - [Fundamentos sobre RAG](https://github.com/topicos-computacao-aplicada/2025-2/blob/main/docs/rag_paper_tecnico.md)
-- [Exemplo de aplicação](https://github.com/topicos-computacao-aplicada/2025-2/blob/main/docs/exemplo_web_rag.md)
+- [Exemplo de resumo de pdf](https://github.com/topicos-computacao-aplicada/2025-2/tree/main/pdf_summarizer)
+- [Exemplo de aplicação RAG web](https://github.com/topicos-computacao-aplicada/2025-2/blob/main/docs/exemplo_web_rag.md)
 - [Protótipo de App web com RAG](https://github.com/topicos-computacao-aplicada/2025-2/tree/main/web_rag_pdf)
 
 ### Agentes de IA
