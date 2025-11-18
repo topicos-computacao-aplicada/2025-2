@@ -46,7 +46,7 @@ Exemplo de Aplicação de Visão Computacional usando Deep Learning
 
 **Agentes de IA** são sistemas autônomos que percebem seu ambiente por meio de entradas (como um prompt, dados ou sensores), tomam decisões para atingir um objetivo específico e executam ações, muitas vezes utilizando ferramentas externas. Diferente de um modelo de IA generativa que apenas responde a uma única solicitação, um agente opera em um ciclo de raciocínio: ele planeja uma sequência de tarefas, pode usar ferramentas como motores de busca, APIs ou código para coletar informações e, então, age com base nesses resultados, iterando até concluir a meta. Esse poder de delegar e orquestrar tarefas complexas – como pesquisar, analisar e resumir um tópico – os torna extremamente versáteis. Eles representam um avanço em direção a uma inteligência mais geral, automatizando fluxos de trabalho complexos e agindo como assistentes proativos, capazes de resolver problemas de forma dinâmica e autoguiada.
 
-- [Agente de Resumos de Arquivos .txt](https://github.com/topicos-computacao-aplicada/2025-2/tree/main/agente_simples)
+- [Agente de Resumos de Arquivos](https://github.com/topicos-computacao-aplicada/2025-2/tree/main/agente_simples)
 
 ## LangChain
 
