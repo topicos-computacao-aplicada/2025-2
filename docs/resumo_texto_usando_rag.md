@@ -61,11 +61,17 @@ Introdução prática ao Retrieval-Augmented Generation
 
 ---
 
+# Exemplo de Aplicação de Resumo de Texto
+
+Usando o framework Langchain
+
 ## Dependências da Aplicação
 
-**`langchain-text-splitters`**: Divide textos longos em chunks menores para processamento eficiente pelos modelos de IA.
-
 **`langchain-openai`**: Fornece integração com os modelos da OpenAI (GPT-4, GPT-3.5) para geração de resumos.
+
+**`langchain-community`**: Oferece componentes adicionais e integrações com ferramentas de código aberto.
+
+**`langchain-text-splitters`**: Divide textos longos em chunks menores para processamento eficiente pelos modelos de IA.
 
 **`sentence-transformers`**: Gera embeddings vetoriais para representação semântica do texto.
 
@@ -73,7 +79,6 @@ Introdução prática ao Retrieval-Augmented Generation
 
 **`pypdf`**: Extrai texto de arquivos PDF.
 
-**`langchain-community`**: Oferece componentes adicionais e integrações com ferramentas de código aberto.
 
 ## Fluxo da Aplicação
 
