@@ -8,8 +8,8 @@ import uuid
 from app.database import get_db, engine
 from app import models
 from app import schemas
-from app.gemini_client import GeminiClient
-
+from app.clients.gemini_client import GeminiClient
+from app.clients.openai_client import OpenAIClient
 # Criar tabelas
 models.Base.metadata.create_all(bind=engine)
 
@@ -23,7 +23,12 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-gemini_client = GeminiClient()
+
+llm_config = {"temperature": 1.0,
+    "top_k": 40,
+    "top_p": 1.0}
+
+gemini_client = OpenAIClient(llm_config)
 
 @app.post("/chat", response_model=schemas.ChatResponse)
 async def chat(

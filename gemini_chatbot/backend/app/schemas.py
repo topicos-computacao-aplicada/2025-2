@@ -41,3 +41,8 @@ class ChatResponse(BaseModel):
     conversation_id: int
     message_id: int
     tokens_used: int
+    
+class LLMParameters(BaseModel):
+    temperature: float
+    top_k: float
+    top_p: float
